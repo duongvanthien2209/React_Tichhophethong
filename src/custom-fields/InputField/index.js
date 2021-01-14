@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
@@ -11,6 +12,8 @@ const InputField = (props) => {
   const { name } = field; // field: { name, value, onChange, onBlur }
   const { errors, touched } = form;
   const showError = errors[name] && touched[name];
+
+  // console.log(value);
 
   return (
     <FormGroup>

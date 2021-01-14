@@ -8,6 +8,8 @@ import {
   faTachometerAlt,
   faCog,
   faUser,
+  faPizzaSlice,
+  faUtensils,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
@@ -52,6 +54,20 @@ const SideBar = () => (
       <Link className="nav-link" to="/admin/main/qlNguoiDung">
         <FontAwesomeIcon className="mr-2" icon={faUser} />
         <span>Người dùng</span>
+      </Link>
+    </li>
+
+    <li className="nav-item">
+      <Link className="nav-link" to="/admin/main/qlMonAn">
+        <FontAwesomeIcon className="mr-2" icon={faPizzaSlice} />
+        <span>Món ăn</span>
+      </Link>
+    </li>
+
+    <li className="nav-item">
+      <Link className="nav-link" to="/admin/main/qlLoaiMonAn">
+        <FontAwesomeIcon className="mr-2" icon={faUtensils} />
+        <span>Loại món ăn</span>
       </Link>
     </li>
 

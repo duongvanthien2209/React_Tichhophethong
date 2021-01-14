@@ -26,6 +26,7 @@
     "react-select": "^3.1.1",
     "reactstrap": "^8.8.1",
     "select-react": "^1.0.9",
+    "socket.io-client": "^3.0.5",
     "web-vitals": "^0.2.4",
     "yup": "^0.32.8"
   },

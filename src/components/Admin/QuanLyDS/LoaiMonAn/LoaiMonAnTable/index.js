@@ -1,73 +1,42 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-underscore-dangle */
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
-  Input,
+  // Input,
   Table,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
+  // Modal,
+  // ModalHeader,
+  // ModalBody,
+  // ModalFooter,
   Button,
-  Form,
-  FormGroup,
-  Label,
+  // Form,
+  // FormGroup,
+  // Label,
   Pagination,
   PaginationItem,
   PaginationLink,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import MonAnForm from '../MonAnForm';
-import ThemMonForm from '../ThemMonForm';
+// import moment from 'moment';
+// import MonAnForm from '../MonAnForm';
 
-const MonAnTable = ({
-  foods,
-  onSearch,
-  counter,
-  changePage,
-  options,
-  onSubmit,
-  file,
-  setFile,
-}) => {
-  const [modal, setModal] = useState(false);
-  const [modal1, setModal1] = useState(false);
-  const [food, setFood] = useState(null);
+const LoaiMonAnTable = ({ foodTypes, counter, changePage }) => {
+  // const [modal, setModal] = useState(false);
+  // const [food, setFood] = useState(null);
 
-  const toggle = () => setModal(!modal);
-  const toggle1 = () => setModal1(!modal1);
+  // const toggle = () => setModal(!modal);
 
-  const initialValues = {
-    search: '',
-  };
-
-  const initialValues1 = {
-    tenMon: '',
-    moTa: '',
-    // hinhAnh: null,
-    gia: 0,
-    loai: '',
-  };
-
-  console.log(food);
-
-  const handleSubmit = async (values) => {
-    await onSubmit(values);
-    toggle1();
-  };
+  // const initialValues = {
+  //   search: '',
+  // };
 
   const handleClick = (id) => {
     // debugger;
-    const currentFood = foods.find((item) => item._id === id);
-    if (!currentFood) return console.log('Có lỗi xảy ra');
-    setFood(() => ({ ...currentFood }));
-    toggle();
-    return true;
+    console.log(id);
   };
 
   const n = parseInt(counter.total / 20 + 1, 10);
@@ -83,27 +52,11 @@ const MonAnTable = ({
         </h6>
         <div className="dataTables-filter d-flex justify-content-between align-items-center">
           {/* <Input type="search" size="sm" placeholder="Tìm kiếm" /> */}
-          <MonAnForm initialValues={initialValues} onSearch={onSearch} />
-          <Button outline color="primary" onClick={toggle1}>
-            Thêm món
-          </Button>
-
-          <Modal isOpen={modal1} toggle={toggle1}>
-            <ModalHeader toggle={toggle1}>Thêm món</ModalHeader>
-            <ModalBody>
-              <ThemMonForm
-                onSubmit={handleSubmit}
-                initialValues={initialValues1}
-                options={options}
-                file={file}
-                setFile={setFile}
-              />
-            </ModalBody>
-          </Modal>
+          {/* <MonAnForm initialValues={initialValues} onSearch={onSearch} /> */}
         </div>
       </CardHeader>
 
-      {food && (
+      {/* {food && (
         <Modal isOpen={modal} toggle={toggle}>
           <ModalHeader toggle={toggle}>Chi tiết cửa hàng</ModalHeader>
           <ModalBody>
@@ -128,43 +81,32 @@ const MonAnTable = ({
             </Button>
           </ModalFooter>
         </Modal>
-      )}
+      )} */}
 
       <CardBody>
         <Table responsive bordered>
           <thead>
             <tr>
               <th>#</th>
-              <th>Tên món</th>
-              <th>Mô tả</th>
-              <th>Giá</th>
-              <th>Loại</th>
-              <th>Ngày tạo</th>
+              <th>Tên loại</th>
               <th>Xóa</th>
-              <th>Chi tiết</th>
             </tr>
           </thead>
           <tbody>
-            {foods.map((currentFood, index) => (
+            {foodTypes.map((currentFoodType, index) => (
               <tr>
                 <td>{index + 1}</td>
-                <td>{currentFood.tenMon}</td>
-                <td>{currentFood.moTa}</td>
-                <td>{currentFood.gia}</td>
-                <td>{currentFood.loai.tenLoai}</td>
-                <td>{moment(currentFood.dateCreate).format('DD-MM-YYYY')}</td>
-                <td>
-                  <Button block color="danger">
-                    Xóa
-                  </Button>
-                </td>
+                <td>{currentFoodType.tenLoai}</td>
+                {/* <td>{currentFoodType.gia}</td>
+                <td>{currentFoodType.loai.tenLoai}</td>
+                <td>{moment(currentFoodType.dateCreate).format('DD-MM-YYYY')}</td>
+                <td>{currentFoodType.nhaHang.tenNhaHang}</td> */}
                 <td>
                   <Button
-                    block
-                    color="primary"
-                    onClick={() => handleClick(currentFood._id)}
+                    color="danger"
+                    onClick={() => handleClick(currentFoodType._id)}
                   >
-                    Xem
+                    Xóa
                   </Button>
                 </td>
               </tr>
@@ -232,15 +174,15 @@ const MonAnTable = ({
   );
 };
 
-MonAnTable.propTypes = {
-  foods: PropTypes.array.isRequired,
-  onSearch: PropTypes.func.isRequired,
+LoaiMonAnTable.propTypes = {
+  foodTypes: PropTypes.array.isRequired,
+  // onSearch: PropTypes.func.isRequired,
   counter: PropTypes.object.isRequired,
   changePage: PropTypes.func.isRequired,
-  options: PropTypes.array.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  file: PropTypes.object.isRequired,
-  setFile: PropTypes.func.isRequired,
+  // options: PropTypes.array.isRequired,
+  // onSubmit: PropTypes.func.isRequired,
+  // file: PropTypes.object.isRequired,
+  // setFile: PropTypes.func.isRequired,
 };
 
-export default MonAnTable;
+export default LoaiMonAnTable;

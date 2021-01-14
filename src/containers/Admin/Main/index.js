@@ -4,11 +4,13 @@ import TopBar from 'components/Admin/Main/TopBar';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import CuaHang from '../QuanLyDS/CuaHang';
+import LoaiMonAn from '../QuanLyDS/LoaiMonAn';
+import MonAn from '../QuanLyDS/MonAn';
 import NguoiDung from '../QuanLyDS/NguoiDung';
 
 const Main = () => {
   const match = useRouteMatch();
-  console.log(match.url);
+  // console.log(match.url);
 
   return (
     <div id="wrapper">
@@ -30,6 +32,14 @@ const Main = () => {
                 exact
                 path={`${match.url}/qlNguoiDung`}
                 component={NguoiDung}
+              />
+
+              <Route exact path={`${match.url}/qlMonAn`} component={MonAn} />
+
+              <Route
+                exact
+                path={`${match.url}/qlLoaiMonAn`}
+                component={LoaiMonAn}
               />
             </Switch>
           </div>

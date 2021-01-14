@@ -4,7 +4,7 @@ import NguoiDungTable from 'components/Admin/QuanLyDS/NguoiDung/NguoiDungTable';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getAll, find } from 'redux/Slices/userSlide';
+import { getAll, find } from 'redux/Slices/Admin/userSlide';
 
 const NguoiDung = () => {
   const dispatch = useDispatch();
