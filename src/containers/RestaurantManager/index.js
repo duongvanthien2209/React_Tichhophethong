@@ -7,13 +7,12 @@ import PrivateRoute from 'routes/RestaurantManager/privateRoute';
 import { Provider } from 'react-redux';
 import restaurantManagerStore from 'redux/Stores/restaurantManagerStore';
 import io from 'socket.io-client';
+import { ENDPOINT } from 'constants/index';
 import ConfirmationPassword from './ConfirmationPassword';
 import ForgotPassword from './ForgotPassword';
 import Login from './Login';
 import Main from './Main';
 import Register from './Register';
-
-const ENDPOINT = 'http://localhost:5000';
 
 let socket;
 
@@ -22,10 +21,11 @@ const RestaurantManager = () => {
 
   useEffect(() => {
     socket = io(ENDPOINT);
-    console.log(socket);
+    // console.log('Done1');
+
+    socket.on('billMessage', (message) => console.log(message));
 
     return () => {
-      // socket.emit('disconnect', 'Thanh cong');
       socket.off();
     };
   }, []);

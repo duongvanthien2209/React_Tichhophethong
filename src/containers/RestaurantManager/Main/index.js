@@ -1,9 +1,11 @@
 /* eslint-disable import/no-unresolved */
 import SideBar from 'components/RestaurantManager/Main/SideBar';
 import TopBar from 'components/RestaurantManager/Main/TopBar';
-import React from 'react';
+import React, { useEffect } from 'react';
+// import { useSelector } from 'react-redux';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 // import io from 'socket.io-client';
+// import { so } from 'constants/index';
 import BinhLuan from '../QuanLyDS/BinhLuan';
 import DanhGia from '../QuanLyDS/DanhGia';
 import MonAn from '../QuanLyDS/MonAn';
@@ -14,6 +16,11 @@ import MonAn from '../QuanLyDS/MonAn';
 
 const Main = () => {
   const match = useRouteMatch();
+  // const { token } = useSelector((state) => state.restaurantManager_auth);
+
+  useEffect(() => {
+    console.log('Done1');
+  }, []);
 
   // useEffect(() => {
   //   socket = io(ENDPOINT);

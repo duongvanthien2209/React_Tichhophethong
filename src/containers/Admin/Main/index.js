@@ -3,6 +3,7 @@ import SideBar from 'components/Admin/Main/SideBar';
 import TopBar from 'components/Admin/Main/TopBar';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
+// import { so } from 'constants/index';
 import CuaHang from '../QuanLyDS/CuaHang';
 import LoaiMonAn from '../QuanLyDS/LoaiMonAn';
 import MonAn from '../QuanLyDS/MonAn';
@@ -11,6 +12,10 @@ import NguoiDung from '../QuanLyDS/NguoiDung';
 const Main = () => {
   const match = useRouteMatch();
   // console.log(match.url);
+
+  // useEffect(() => {
+  //   console.log('Done1');
+  // }, [so]);
 
   return (
     <div id="wrapper">
