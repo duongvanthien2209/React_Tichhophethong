@@ -32,7 +32,8 @@ export const login = createAsyncThunk(
     if (status === 'failed' && error) throw new Error(error.message);
 
     if (status === 'success' && data) {
-      return data.token;
+      // return data.token;
+      return data;
     }
     throw new Error('Có lỗi xảy ra');
   },
@@ -70,6 +71,7 @@ const restaurantManagerAuth = createSlice({
   name: 'restaurantManager_auth',
   initialState: {
     token: localStorage.getItem('token'),
+    restaurantManager: null,
     isLogined: false,
     loading: false,
     resetToken: '',
@@ -90,9 +92,10 @@ const restaurantManagerAuth = createSlice({
       state.loading = false;
     },
     [login.fulfilled]: (state, action) => {
-      localStorage.setItem('token', action.payload);
+      localStorage.setItem('token', action.payload.token);
       state.loading = false;
-      state.token = action.payload;
+      state.token = action.payload.token;
+      state.restaurantManager = action.payload.restaurantManager;
       state.isLogined = true;
     },
     [forgotPassword.pending]: (state) => {

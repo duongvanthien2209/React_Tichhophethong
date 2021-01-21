@@ -1,11 +1,14 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable import/no-unresolved */
 import SideBar from 'components/RestaurantManager/Main/SideBar';
 import TopBar from 'components/RestaurantManager/Main/TopBar';
-import React, { useEffect } from 'react';
+import React from 'react';
 // import { useSelector } from 'react-redux';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import PropTypes from 'prop-types';
 // import io from 'socket.io-client';
 // import { so } from 'constants/index';
+import { useSelector } from 'react-redux';
 import BinhLuan from '../QuanLyDS/BinhLuan';
 import DanhGia from '../QuanLyDS/DanhGia';
 import MonAn from '../QuanLyDS/MonAn';
@@ -14,27 +17,17 @@ import MonAn from '../QuanLyDS/MonAn';
 
 // let socket;
 
-const Main = () => {
+const Main = ({ restaurantManagerId, setRestaurantManagerId }) => {
   const match = useRouteMatch();
-  // const { token } = useSelector((state) => state.restaurantManager_auth);
+  const { restaurantManager } = useSelector(
+    (state) => state.restaurantManager_auth,
+  );
+  // console.log(`Count: ${count}`);
 
-  useEffect(() => {
-    console.log('Done1');
-  }, []);
+  // console.log(restaurantManager);
 
-  // useEffect(() => {
-  //   socket = io(ENDPOINT);
-
-  //   console.log(socket);
-
-  //   // socket.emit('sendMessage', () => console.log('Done'));
-
-  //   // return () => {
-  //   //   socket.emit('disconnect', () => {
-  //   //     socket.off();
-  //   //   });
-  //   // };
-  // }, []);
+  if (restaurantManager && !restaurantManagerId)
+    setRestaurantManagerId(() => restaurantManager._id);
 
   return (
     <div id="wrapper">
@@ -65,6 +58,11 @@ const Main = () => {
       </div>
     </div>
   );
+};
+
+Main.propTypes = {
+  setRestaurantManagerId: PropTypes.func.isRequired,
+  restaurantManagerId: PropTypes.string.isRequired,
 };
 
 export default Main;

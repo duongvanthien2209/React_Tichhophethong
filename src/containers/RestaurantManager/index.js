@@ -1,6 +1,8 @@
+/* eslint-disable no-debugger */
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-unresolved */
 import LandingLayout from 'components/Layouts/LandingLayout';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch, useRouteMatch } from 'react-router-dom';
 import PublicRoute from 'routes/publicRoute';
 import PrivateRoute from 'routes/RestaurantManager/privateRoute';
@@ -18,17 +20,35 @@ let socket;
 
 const RestaurantManager = () => {
   const match = useRouteMatch();
+  const [restaurantManagerId, setRestaurantManagerId] = useState('');
 
   useEffect(() => {
-    socket = io(ENDPOINT);
-    // console.log('Done1');
+    // console.log('RestaurantManager Done', restaurantManagerId);
 
-    socket.on('billMessage', (message) => console.log(message));
+    if (restaurantManagerId) {
+      socket = io(ENDPOINT);
+      // console.log('Done1');
 
-    return () => {
-      socket.off();
-    };
-  }, []);
+      socket.on('billMessage', (message) => {
+        debugger;
+        console.log(message);
+      });
+
+      socket.emit(
+        'restaurantManagerJoin',
+        { restaurantManagerId },
+        (errorMessage) => {
+          console.log(errorMessage);
+        },
+      );
+
+      return () => {
+        socket.off();
+      };
+    }
+
+    return true;
+  }, [restaurantManagerId]);
 
   return (
     <Provider store={restaurantManagerStore}>
@@ -72,7 +92,15 @@ const RestaurantManager = () => {
           )}
         />
 
-        <PrivateRoute path={`${match.url}/main`} component={() => <Main />} />
+        <PrivateRoute
+          path={`${match.url}/main`}
+          component={() => (
+            <Main
+              restaurantManagerId={restaurantManagerId}
+              setRestaurantManagerId={setRestaurantManagerId}
+            />
+          )}
+        />
       </Switch>
     </Provider>
   );
