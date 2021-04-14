@@ -1,4 +1,5 @@
 /* eslint-disable import/no-unresolved */
+import restaurantTypeReducer from 'redux/Slices/restaurantTypeSlide';
 import adminAuthReducer from '../Slices/Admin/Auth/authSlide';
 import restaurantReducer from '../Slices/Admin/restaurantSlide';
 import userReducer from '../Slices/Admin/userSlide';
@@ -13,6 +14,7 @@ const rootReducer = {
   'admin/food': adminFoodReducer,
   'admin/foodType': adminFoodTypeReducer,
   admin_auth: adminAuthReducer,
+  restaurantType: restaurantTypeReducer,
 };
 
 const adminStore = configureStore({

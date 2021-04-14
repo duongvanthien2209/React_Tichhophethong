@@ -54,7 +54,10 @@ const commentSlide = createSlice({
     },
     [deleteComment.fulfilled]: (state, action) => {
       state.loading = false;
-      state.comments.filter((item) => item._id !== action.payload);
+      const index = state.comments.findIndex(
+        (comment) => comment._id !== action.payload,
+      );
+      state.comments.splice(index, 1);
     },
   },
 });

@@ -1,11 +1,11 @@
 /* eslint-disable import/no-unresolved */
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faBell,
-  faEnvelope,
+  // faBell,
+  // faEnvelope,
   faUser,
   faCogs,
   faSignOutAlt,
@@ -20,134 +20,114 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Badge,
+  // Badge,
   // Button,
 } from 'reactstrap';
 
 // import { IMG_PROFILE, IMG_PROFILE1 } from 'constants/images';
-import imgProfile1 from 'assets/img/undraw_profile_1.svg';
-import imgProfile from 'assets/img/undraw_profile.svg';
+// import imgProfile1 from 'assets/img/undraw_profile_1.svg';
+// import imgProfile from 'assets/img/undraw_profile.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import {
+  getAllNotRead,
+  updateReaded,
+} from 'redux/Slices/RestaurantManager/mailSlide';
+import { unwrapResult } from '@reduxjs/toolkit';
+import MailMessage from './MailMessage';
 
-const TopBar = () => (
-  <Navbar className="navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-    <NavbarToggler
-      id="sidebarToggleTop"
-      className="btn-link d-md-none rounded-circle mr-3"
-    />
+const TopBar = () => {
+  const dispatch = useDispatch();
+  const { restaurantManager } = useSelector(
+    (state) => state.restaurantManager_auth,
+  );
+  const { mailsNotRead } = useSelector(
+    (state) => state['restaurantManager/mail'],
+  );
 
-    <Nav className="ml-auto" navbar>
-      {/* <!-- Nav Item - Alerts --> */}
-      <UncontrolledDropdown className="no-arrow mx-1" nav inNavbar>
-        <DropdownToggle nav caret>
-          <FontAwesomeIcon
-            id="alertsDropdown"
-            className="fa-lg"
-            icon={faBell}
-          />
-          {/* <span className="badge badge-danger badge-counter">3+</span> */}
-          <Badge color="danger" className="badge-counter">
-            3+
-          </Badge>
-        </DropdownToggle>
-        <DropdownMenu
-          className="dropdown-list dropdown-menu-right shadow animated--grow-in"
-          right
-        >
-          <DropdownItem header>Alerts Center</DropdownItem>
-          <DropdownItem className="d-flex align-items-center">
-            <div className="mr-3">
-              <div className="icon-circle bg-primary">
-                <i className="fas fa-file-alt text-white" />
-              </div>
-            </div>
-            <div>
-              <div className="small text-gray-500">December 12, 2019</div>
-              <span className="font-weight-bold">
-                A new monthly report is ready to download!
-              </span>
-            </div>
-          </DropdownItem>
-          <DropdownItem className="text-center small text-gray-500">
-            Show All Alerts
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
+  const fetchData = async () => {
+    try {
+      // console.log(counter);
+      const actionResult = await dispatch(getAllNotRead());
+      unwrapResult(actionResult); // Có unwrapResult mới bắt lỗi được
+      // setTotal(() => currentTotal);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-      {/* <!-- Nav Item - Messages --> */}
-      <UncontrolledDropdown className="no-arrow mx-1" nav inNavbar>
-        <DropdownToggle nav caret>
-          <FontAwesomeIcon
-            id="alertsDropdown"
-            className="fa-lg"
-            icon={faEnvelope}
-          />
-          {/* <span className="badge badge-danger badge-counter">3+</span> */}
-          <Badge color="danger" className="badge-counter">
-            7
-          </Badge>
-        </DropdownToggle>
-        <DropdownMenu
-          className="dropdown-list dropdown-menu-right shadow animated--grow-in"
-          right
-        >
-          <DropdownItem header>Message Center</DropdownItem>
-          <DropdownItem className="d-flex align-items-center">
-            <div className="dropdown-list-image mr-3">
-              <img className="rounded-circle" src={imgProfile1} alt="" />
-              <div className="status-indicator bg-success" />
-            </div>
-            <div>
-              <div className="small text-gray-500">December 12, 2019</div>
-              <span className="font-weight-bold">
-                A new monthly report is ready to download!
-              </span>
-            </div>
-          </DropdownItem>
-          <DropdownItem className="text-center small text-gray-500">
-            Show All Alerts
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
+  const handleReaded = async (mailId) => {
+    try {
+      // console.log(counter);
+      const actionResult = await dispatch(updateReaded(mailId));
+      unwrapResult(actionResult); // Có unwrapResult mới bắt lỗi được
+      // setTotal(() => currentTotal);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-      {/* <!-- Nav Item - User Information --> */}
-      <UncontrolledDropdown className="no-arrow mx-1" nav inNavbar>
-        <DropdownToggle nav caret>
-          <span className="mr-2 d-none d-lg-inline text-gray-600 small">
-            Thiện
-          </span>
-          <img className="img-profile rounded-circle" src={imgProfile} alt="" />
-        </DropdownToggle>
-        <DropdownMenu
-          className="dropdown-menu-right shadow animated--grow-in"
-          right
-        >
-          <DropdownItem>
-            <FontAwesomeIcon
-              className="fa-sm fa-fw mr-2 text-gray-400"
-              icon={faUser}
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return (
+    <Navbar className="navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+      <NavbarToggler
+        id="sidebarToggleTop"
+        className="btn-link d-md-none rounded-circle mr-3"
+      />
+
+      <Nav className="ml-auto" navbar>
+        {/* <!-- Nav Item - Alerts --> */}
+        <MailMessage onRead={handleReaded} mailsNotRead={mailsNotRead} />
+
+        {/* <!-- Nav Item - User Information --> */}
+        <UncontrolledDropdown className="no-arrow mx-1" nav inNavbar>
+          <DropdownToggle nav caret>
+            <span className="mr-2 d-none d-lg-inline text-gray-600 small">
+              {restaurantManager.name}
+            </span>
+            <img
+              className="img-profile rounded-circle"
+              src={restaurantManager.hinh}
+              alt=""
             />
-            Thông tin
-          </DropdownItem>
+          </DropdownToggle>
+          <DropdownMenu
+            className="dropdown-menu-right shadow animated--grow-in"
+            right
+          >
+            <DropdownItem>
+              <Link to="/restaurantManager/main/qlThongTin">
+                <FontAwesomeIcon
+                  className="fa-sm fa-fw mr-2 text-gray-400"
+                  icon={faUser}
+                />
+                Thông tin
+              </Link>
+            </DropdownItem>
 
-          <DropdownItem>
-            <FontAwesomeIcon
-              className="fa-sm fa-fw mr-2 text-gray-400"
-              icon={faCogs}
-            />
-            Cài đặt
-          </DropdownItem>
-          <DropdownItem divider />
-          <DropdownItem>
-            <FontAwesomeIcon
-              className="fa-sm fa-fw mr-2 text-gray-400"
-              icon={faSignOutAlt}
-            />
-            Đăng xuất
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    </Nav>
-  </Navbar>
-);
+            <DropdownItem>
+              <FontAwesomeIcon
+                className="fa-sm fa-fw mr-2 text-gray-400"
+                icon={faCogs}
+              />
+              Cài đặt
+            </DropdownItem>
+            <DropdownItem divider />
+            <DropdownItem>
+              <FontAwesomeIcon
+                className="fa-sm fa-fw mr-2 text-gray-400"
+                icon={faSignOutAlt}
+              />
+              Đăng xuất
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      </Nav>
+    </Navbar>
+  );
+};
 
 export default TopBar;

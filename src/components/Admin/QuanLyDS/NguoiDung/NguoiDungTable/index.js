@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-plusplus */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable no-underscore-dangle */
@@ -23,6 +24,7 @@ import {
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import CuaHangForm from '../../CuaHang/CuaHangForm';
+import NguoiDungCTForm from '../NguoiDungCTForm';
 
 const NguoiDungTable = ({ users, onSearch, counter, changePage }) => {
   const [modal, setModal] = useState(false);
@@ -63,24 +65,22 @@ const NguoiDungTable = ({ users, onSearch, counter, changePage }) => {
         <Modal isOpen={modal} toggle={toggle}>
           <ModalHeader toggle={toggle}>Chi tiết người dùng</ModalHeader>
           <ModalBody>
-            <Form>
-              <FormGroup>
-                <Label>Họ tên</Label>
-                <Input type="text" value={user.fullName} disabled />
-              </FormGroup>
-
-              <FormGroup>
-                <Label>Email</Label>
-                <Input type="text" value={user.email} disabled />
-              </FormGroup>
-            </Form>
+            <NguoiDungCTForm
+              initialValues={{
+                username: user.username,
+                email: user.email,
+                fullName: user.fullName,
+                sdt: user.SDT,
+                diaChi: user.diaChi,
+                ngaySinh: moment(user.ngaySinh).format('DD-MM-YYYY'),
+                CMND: user.CMND,
+                gioiTinh: user.gioiTinh ? 'Nam' : 'Nữ',
+              }}
+            />
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={() => handleClick(user._id)}>
-              Do Something
-            </Button>
-            <Button color="secondary" onClick={toggle}>
-              Cancel
+            <Button color="danger" onClick={toggle}>
+              Hủy
             </Button>
           </ModalFooter>
         </Modal>

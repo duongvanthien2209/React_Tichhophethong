@@ -1,3 +1,5 @@
+/* eslint-disable no-debugger */
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/no-unresolved */
 import SideBar from 'components/RestaurantManager/Main/SideBar';
@@ -9,9 +11,17 @@ import PropTypes from 'prop-types';
 // import io from 'socket.io-client';
 // import { so } from 'constants/index';
 import { useSelector } from 'react-redux';
+// import { ToastContext } from 'components/Providers/Toast';
+// import handleToast from 'helpers/handleToast';
+// import { getAllNotRead } from 'redux/Slices/RestaurantManager/mailSlide';
+// import { unwrapResult } from '@reduxjs/toolkit';
 import BinhLuan from '../QuanLyDS/BinhLuan';
 import DanhGia from '../QuanLyDS/DanhGia';
 import MonAn from '../QuanLyDS/MonAn';
+import HoaDon from '../QuanLyDS/HoaDon';
+import ThongTin from '../QuanLyDS/ThongTin';
+import ThongKe from '../ThongKe';
+import DashBoard from '../DashBoard';
 
 // const ENDPOINT = 'http://localhost:5000';
 
@@ -25,7 +35,6 @@ const Main = ({ restaurantManagerId, setRestaurantManagerId }) => {
   // console.log(`Count: ${count}`);
 
   // console.log(restaurantManager);
-
   if (restaurantManager && !restaurantManagerId)
     setRestaurantManagerId(() => restaurantManager._id);
 
@@ -52,6 +61,22 @@ const Main = ({ restaurantManagerId, setRestaurantManagerId }) => {
                 path={`${match.url}/qlDanhGia`}
                 component={DanhGia}
               />
+
+              <Route exact path={`${match.url}/qlHoaDon`} component={HoaDon} />
+
+              <Route
+                exact
+                path={`${match.url}/qlThongTin`}
+                component={ThongTin}
+              />
+
+              <Route exact path={`${match.url}/thongKe`} component={ThongKe} />
+
+              <Route
+                exact
+                path={`${match.url}/dashboard`}
+                component={DashBoard}
+              />
             </Switch>
           </div>
         </div>
@@ -63,6 +88,7 @@ const Main = ({ restaurantManagerId, setRestaurantManagerId }) => {
 Main.propTypes = {
   setRestaurantManagerId: PropTypes.func.isRequired,
   restaurantManagerId: PropTypes.string.isRequired,
+  // socket: PropTypes.object.isRequired,
 };
 
 export default Main;

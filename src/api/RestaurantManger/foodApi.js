@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import axiosClient from '../apiClient';
 
 const baseUrl = '/restaurantManager/food';
@@ -13,3 +14,11 @@ export const findApi = (name, page) =>
 
 export const createFoodApi = (formData) =>
   axiosClient.post(`${baseUrl}/register`, formData);
+
+export const updateFoodApi = (foodId, formData) => {
+  debugger;
+  return axiosClient.post(`${baseUrl}/update/${foodId}`, formData);
+};
+
+export const deleteFoodApi = (foodId) =>
+  axiosClient.get(`${baseUrl}/delete/${foodId}`);

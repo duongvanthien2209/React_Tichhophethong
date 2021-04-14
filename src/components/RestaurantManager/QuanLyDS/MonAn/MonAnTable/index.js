@@ -1,3 +1,5 @@
+/* eslint-disable no-debugger */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-underscore-dangle */
@@ -32,11 +34,14 @@ const MonAnTable = ({
   changePage,
   options,
   onSubmit,
+  onUpdate,
+  onDelete,
   file,
   setFile,
 }) => {
   const [modal, setModal] = useState(false);
   const [modal1, setModal1] = useState(false);
+  const [isUpdateMode, setUpdateMode] = useState(false);
   const [food, setFood] = useState(null);
 
   const toggle = () => setModal(!modal);
@@ -54,19 +59,32 @@ const MonAnTable = ({
     loai: '',
   };
 
-  console.log(food);
+  // console.log(food);
 
   const handleSubmit = async (values) => {
     await onSubmit(values);
     toggle1();
   };
 
+  const handleUpdate = async (values) => {
+    // console.log(values);
+    // debugger;
+    try {
+      if (!food) throw new Error('Có lỗi xảy ra');
+      await onUpdate(food._id, values);
+      return toggle1();
+    } catch (error) {
+      return console.log(error);
+    }
+  };
+
   const handleClick = (id) => {
     // debugger;
     const currentFood = foods.find((item) => item._id === id);
     if (!currentFood) return console.log('Có lỗi xảy ra');
+    // console.log(currentFood);
     setFood(() => ({ ...currentFood }));
-    toggle();
+    toggle1();
     return true;
   };
 
@@ -84,16 +102,34 @@ const MonAnTable = ({
         <div className="dataTables-filter d-flex justify-content-between align-items-center">
           {/* <Input type="search" size="sm" placeholder="Tìm kiếm" /> */}
           <MonAnForm initialValues={initialValues} onSearch={onSearch} />
-          <Button outline color="primary" onClick={toggle1}>
+          <Button
+            outline
+            color="primary"
+            onClick={() => {
+              setUpdateMode(() => false);
+              toggle1();
+            }}
+          >
             Thêm món
           </Button>
 
           <Modal isOpen={modal1} toggle={toggle1}>
-            <ModalHeader toggle={toggle1}>Thêm món</ModalHeader>
+            <ModalHeader toggle={toggle1}>
+              {isUpdateMode ? 'Xem chi tiết' : 'Thêm món'}
+            </ModalHeader>
             <ModalBody>
               <ThemMonForm
-                onSubmit={handleSubmit}
-                initialValues={initialValues1}
+                onSubmit={isUpdateMode ? handleUpdate : handleSubmit}
+                initialValues={
+                  isUpdateMode && food
+                    ? {
+                        tenMon: food.tenMon,
+                        moTa: food.moTa,
+                        gia: food.gia,
+                        loai: food.loai._id,
+                      }
+                    : initialValues1
+                }
                 options={options}
                 file={file}
                 setFile={setFile}
@@ -149,12 +185,21 @@ const MonAnTable = ({
               <tr>
                 <td>{index + 1}</td>
                 <td>{currentFood.tenMon}</td>
-                <td>{currentFood.moTa}</td>
+                <td
+                  className="text-truncate"
+                  style={{ 'max-width': `${200}px` }}
+                >
+                  {currentFood.moTa}
+                </td>
                 <td>{currentFood.gia}</td>
                 <td>{currentFood.loai.tenLoai}</td>
                 <td>{moment(currentFood.dateCreate).format('DD-MM-YYYY')}</td>
                 <td>
-                  <Button block color="danger">
+                  <Button
+                    block
+                    color="danger"
+                    onClick={() => onDelete(currentFood._id)}
+                  >
                     Xóa
                   </Button>
                 </td>
@@ -162,7 +207,10 @@ const MonAnTable = ({
                   <Button
                     block
                     color="primary"
-                    onClick={() => handleClick(currentFood._id)}
+                    onClick={() => {
+                      handleClick(currentFood._id);
+                      setUpdateMode(() => true);
+                    }}
                   >
                     Xem
                   </Button>
@@ -239,6 +287,8 @@ MonAnTable.propTypes = {
   changePage: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
   file: PropTypes.object.isRequired,
   setFile: PropTypes.func.isRequired,
 };

@@ -12,8 +12,10 @@ const SelectField = (props) => {
   const showError = errors[name] && touched[name];
 
   // Option: [{ label: "", value: "" }]
-  // console.log(options);
+  // console.log('options', options);
   const selectedOption = options.find((option) => option.value === value);
+  // console.log('selectedOption', selectedOption);
+  // console.log('value', value);
 
   // eslint-disable-next-line no-shadow
   const handleSelectedOptionChange = (currentSelectedOption) => {
@@ -53,14 +55,14 @@ SelectField.propTypes = {
   field: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
 
-  options: PropTypes.array,
+  options: PropTypes.array.isRequired,
   label: PropTypes.string,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
 };
 
 SelectField.defaultProps = {
-  options: [],
+  // options: [],
   label: '',
   placeholder: '',
   disabled: false,

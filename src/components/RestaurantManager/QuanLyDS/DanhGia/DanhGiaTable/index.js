@@ -35,6 +35,7 @@ const DanhGiaTable = ({ stars, counter, changePage, onDeleteClick }) => {
             <tr>
               <th>#</th>
               <th>Người đánh giá</th>
+              <th>Món ăn</th>
               <th>Số lượng</th>
               <th>Ngày giờ</th>
               <th>Xóa</th>
@@ -45,6 +46,7 @@ const DanhGiaTable = ({ stars, counter, changePage, onDeleteClick }) => {
               <tr>
                 <td>{index + 1}</td>
                 <td>{currentStar.khachHang.fullName}</td>
+                <td>{currentStar.monAn.tenMon}</td>
                 <td>{currentStar.soLuong}</td>
                 <td>
                   {moment(currentStar.dateCreate).format(

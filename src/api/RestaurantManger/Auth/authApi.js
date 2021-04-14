@@ -17,3 +17,9 @@ export const resetPasswordApi = ({ token, data }) =>
     `${baseURLRestaurantManagerAuth}/resetPassword/${token}`,
     data,
   );
+
+export const updateApi = (formData) =>
+  axiosClient.post(`${baseURLRestaurantManagerAuth}/update`, formData);
+
+export const thongKeApi = () =>
+  axiosClient.get(`${baseURLRestaurantManagerAuth}/thongKe`);

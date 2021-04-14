@@ -56,7 +56,7 @@ const BinhLuan = () => {
 
   return (
     <div>
-      <h1 className="h3 mb-4 text-gray-800">Blank Page</h1>
+      <h1 className="h3 mb-4 text-gray-800">Quản lý</h1>
       <BinhLuanTable
         comments={comments}
         changePage={changePage}

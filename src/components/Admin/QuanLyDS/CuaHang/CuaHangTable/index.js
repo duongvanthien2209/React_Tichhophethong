@@ -24,11 +24,14 @@ import {
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 import CuaHangForm from '../CuaHangForm';
+import CuaHangCTForm from '../CuaHangCTForm';
 
 const CuaHangTable = ({ restaurants, onSearch, counter, changePage }) => {
   const [modal, setModal] = useState(false);
   const [restaurant, setRestaurant] = useState(null);
+  const { restaurantTypes } = useSelector((state) => state.restaurantType);
 
   const toggle = () => setModal(!modal);
 
@@ -50,6 +53,8 @@ const CuaHangTable = ({ restaurants, onSearch, counter, changePage }) => {
   const arr = [];
   for (let i = 1; i <= n; i++) arr.push(i);
 
+  // console.log(restaurant);
+
   return (
     <Card className="shadow mb-4">
       <CardHeader className="py-3 d-flex flex-column">
@@ -66,7 +71,7 @@ const CuaHangTable = ({ restaurants, onSearch, counter, changePage }) => {
         <Modal isOpen={modal} toggle={toggle}>
           <ModalHeader toggle={toggle}>Chi tiết cửa hàng</ModalHeader>
           <ModalBody>
-            <Form>
+            {/* <Form>
               <FormGroup>
                 <Label>Tên nhà hàng</Label>
                 <Input type="text" value={restaurant.tenNhaHang} disabled />
@@ -76,14 +81,24 @@ const CuaHangTable = ({ restaurants, onSearch, counter, changePage }) => {
                 <Label>Email</Label>
                 <Input type="text" value={restaurant.email} disabled />
               </FormGroup>
-            </Form>
+            </Form> */}
+            <CuaHangCTForm
+              initialValues={{
+                name: restaurant.name,
+                email: restaurant.email,
+                sdt: restaurant.SDT,
+                diaChi: restaurant.diaChi,
+                loaiHinh: restaurant.loaiHinh,
+              }}
+              options={restaurantTypes.map((item) => ({
+                label: item.name,
+                value: item._id,
+              }))}
+            />
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={() => handleClick(restaurant._id)}>
-              Do Something
-            </Button>
-            <Button color="secondary" onClick={toggle}>
-              Cancel
+            <Button color="danger" onClick={toggle}>
+              Hủy
             </Button>
           </ModalFooter>
         </Modal>
@@ -107,16 +122,19 @@ const CuaHangTable = ({ restaurants, onSearch, counter, changePage }) => {
             {restaurants.map((currentRestaurant, index) => (
               <tr>
                 <td>{index + 1}</td>
-                <td>{currentRestaurant.tenNhaHang}</td>
+                <td
+                  className="text-truncate"
+                  style={{ 'max-width': `${200}px` }}
+                >
+                  {currentRestaurant.name}
+                </td>
                 <td>{currentRestaurant.email}</td>
                 <td>{currentRestaurant.SDT}</td>
-                <td>
+                <td className="text-nowrap">
                   {moment(currentRestaurant.ngayLap).format('DD-MM-YYYY')}
                 </td>
                 <td>
-                  <Button block color="success">
-                    Báo cáo
-                  </Button>
+                  <Button color="success">Báo cáo</Button>
                 </td>
                 <td>
                   <Button block color="danger">

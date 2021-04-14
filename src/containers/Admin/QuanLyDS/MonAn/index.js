@@ -9,11 +9,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // import { createFoodApi } from 'api/RestaurantManger/foodApi';
 import { getAll, find } from 'redux/Slices/Admin/foodSlide';
+import { getAllFoodType } from 'redux/Slices/Admin/foodTypeSlide';
 // import { getAll as getAllFood } from 'redux/Slices/RestaurantManager/foodTypeSlide';
 
 const MonAn = () => {
   const dispatch = useDispatch();
   const { foods } = useSelector((state) => state['admin/food']);
+  const { foodTypesAll } = useSelector((state) => state['admin/foodType']);
 
   const [counter, setCounter] = useState(1);
   const [searchText, setSearchText] = useState('');
@@ -25,6 +27,17 @@ const MonAn = () => {
       const actionResult = await dispatch(getAll(counter));
       const { total: currentTotal } = unwrapResult(actionResult); // Có unwrapResult mới bắt lỗi được
       setTotal(() => currentTotal);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchFoodType = async () => {
+    try {
+      // console.log(counter);
+      const actionResult = await dispatch(getAllFoodType());
+      unwrapResult(actionResult); // Có unwrapResult mới bắt lỗi được
+      // setTotal(() => currentTotal);
     } catch (error) {
       console.log(error);
     }
@@ -95,18 +108,23 @@ const MonAn = () => {
   // }, [match.url]);
 
   useEffect(() => {
+    if (foodTypesAll.length === 0) fetchFoodType();
+  }, []);
+
+  useEffect(() => {
     if (searchText) handleSearch();
     else fetchData();
   }, [counter, searchText]);
 
   return (
     <div>
-      <h1 className="h3 mb-4 text-gray-800">Blank Page</h1>
+      <h1 className="h3 mb-4 text-gray-800">Quản lý</h1>
       <MonAnTable
         foods={foods}
         onSearch={handleSearch}
         counter={{ currentPage: counter, total }}
         changePage={changePage}
+        foodTypesAll={foodTypesAll}
       />
     </div>
   );

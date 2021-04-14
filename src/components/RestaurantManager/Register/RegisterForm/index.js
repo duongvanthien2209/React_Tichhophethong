@@ -62,6 +62,15 @@ const RegisterForm = ({ initialValues, onSubmit, options }) => {
               placeholder="Tên chủ cửa hàng"
             />
 
+            {options.length !== 0 && (
+              <FastField
+                name="loaiHinh"
+                component={SelectField}
+                options={options}
+                placeholder="Loại cửa hàng"
+              />
+            )}
+
             <FastField
               name="email"
               type="email"
@@ -90,13 +99,6 @@ const RegisterForm = ({ initialValues, onSubmit, options }) => {
               component={InputField}
               className="form-control-user"
               placeholder="Địa chỉ"
-            />
-
-            <FastField
-              name="loaiHinh"
-              component={SelectField}
-              options={options}
-              placeholder="Loại cửa hàng"
             />
 
             <Button className="btn-user" type="submit" color="primary" block>

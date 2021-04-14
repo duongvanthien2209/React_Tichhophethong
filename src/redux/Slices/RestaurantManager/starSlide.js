@@ -52,7 +52,10 @@ const starSlide = createSlice({
     },
     [deleteStar.fulfilled]: (state, action) => {
       state.loading = false;
-      state.stars.filter((item) => item._id !== action.payload);
+      const index = state.stars.findIndex(
+        (star) => star._id === action.payload,
+      );
+      state.stars.splice(index, 1);
     },
   },
 });

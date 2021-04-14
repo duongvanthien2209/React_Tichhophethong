@@ -1,6 +1,6 @@
 /* eslint-disable no-debugger */
 /* eslint-disable import/no-unresolved */
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import LoginForm from 'components/RestaurantManager/Login/LoginForm';
@@ -9,12 +9,16 @@ import { login } from 'redux/Slices/RestaurantManager/Auth/authSlide';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 
+import { ToastContext } from 'components/Providers/Toast';
+import handleToast from 'helpers/handleToast';
+
 import { Redirect } from 'react-router-dom';
 import cls from './index.module.scss';
 
 const Login = () => {
   const dispatch = useDispatch();
   const { isLogined } = useSelector((state) => state.restaurantManager_auth);
+  const { toast } = useContext(ToastContext);
 
   const initialValues = {
     email: '',
@@ -26,9 +30,12 @@ const Login = () => {
     try {
       // debugger;
       const actionResult = await dispatch(login(values));
-      unwrapResult(actionResult); // Có unwrapResult mới bắt lỗi được
+      const { status, error } = unwrapResult(actionResult); // Có unwrapResult mới bắt lỗi được
+      if (status === 'failed' && error) throw new Error(error.message);
+      return true;
     } catch (error) {
       console.log(error.message);
+      return handleToast(toast, error.message, false);
     }
   };
 

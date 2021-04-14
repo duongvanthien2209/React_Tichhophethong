@@ -1,6 +1,6 @@
 /* eslint-disable no-debugger */
 /* eslint-disable import/no-unresolved */
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import LoginForm from 'components/Admin/Login/LoginForm';
@@ -9,12 +9,17 @@ import { login } from 'redux/Slices/Admin/Auth/authSlide';
 import { useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 
+import { ToastContext } from 'components/Providers/Toast';
+import handleToast from 'helpers/handleToast';
+
 import { Redirect } from 'react-router-dom';
+// import { toast } from 'react-toastify';
 import cls from './index.module.scss';
 
 const Login = () => {
   const dispatch = useDispatch();
   const [isLogined, setIsLogined] = useState(false);
+  const { toast } = useContext(ToastContext);
 
   const initialValues = {
     name: '',
@@ -26,10 +31,19 @@ const Login = () => {
     try {
       // debugger;
       const actionResult = await dispatch(login(values));
-      unwrapResult(actionResult); // Có unwrapResult mới bắt lỗi được
-      setIsLogined(() => true);
+      const { status, error } = unwrapResult(actionResult); // Có unwrapResult mới bắt lỗi được
+
+      if (status === 'failed' && error) throw new Error(error.message);
+
+      // if (status === 'success' && data) {
+      //   setIsLogined(() => true);
+      //   return handleToast(toast, 'Đăng nhập thành công');
+      // }
+
+      return setIsLogined(() => true);
     } catch (error) {
       console.log(error.message);
+      return handleToast(toast, error.message, false);
     }
   };
 

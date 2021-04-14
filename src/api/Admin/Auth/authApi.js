@@ -21,3 +21,5 @@ export const resetPasswordApi = ({ resetToken, values }) => {
   const url = `${baseURLAdminAuth}/resetPassword/${resetToken}`;
   return axiosClient.post(url, values);
 };
+
+export const thongKeApi = () => axiosClient.get(`${baseURLAdminAuth}/thongKe`);

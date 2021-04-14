@@ -6,6 +6,7 @@ import {
   loginApi,
   forgotPasswordApi,
   resetPasswordApi,
+  updateApi,
 } from 'api/RestaurantManger/Auth/authApi';
 
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
@@ -67,6 +68,20 @@ export const resetPassword = createAsyncThunk(
   },
 );
 
+export const update = createAsyncThunk(
+  'restaurantManager/update',
+  async (params, thunkApi) => {
+    const { status, error, data } = await updateApi(params);
+
+    if (status === 'failed' && error) throw new Error(error.message);
+
+    if (status === 'success' && data) {
+      return data;
+    }
+    throw new Error('Có lỗi xảy ra');
+  },
+);
+
 const restaurantManagerAuth = createSlice({
   name: 'restaurantManager_auth',
   initialState: {
@@ -110,6 +125,13 @@ const restaurantManagerAuth = createSlice({
       state.loading = false;
       state.isLogined = true;
       state.token = action.payload;
+    },
+    [update.pending]: (state) => {
+      state.loading = true;
+    },
+    [update.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.restaurantManager = action.payload.restaurant;
     },
   },
 });

@@ -6,16 +6,13 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Input,
+  // Input,
   Table,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
   Button,
-  Form,
-  FormGroup,
-  Label,
   Pagination,
   PaginationItem,
   PaginationLink,
@@ -23,8 +20,9 @@ import {
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import MonAnForm from '../MonAnForm';
+import MonAnCTForm from '../MonAnCTForm';
 
-const MonAnTable = ({ foods, onSearch, counter, changePage }) => {
+const MonAnTable = ({ foods, onSearch, counter, changePage, foodTypesAll }) => {
   const [modal, setModal] = useState(false);
   const [food, setFood] = useState(null);
 
@@ -64,7 +62,7 @@ const MonAnTable = ({ foods, onSearch, counter, changePage }) => {
         <Modal isOpen={modal} toggle={toggle}>
           <ModalHeader toggle={toggle}>Chi tiết cửa hàng</ModalHeader>
           <ModalBody>
-            <Form>
+            {/* <Form>
               <FormGroup>
                 <Label>Tên nhà hàng</Label>
                 <Input type="text" value={food.tenNhaHang} disabled />
@@ -74,7 +72,20 @@ const MonAnTable = ({ foods, onSearch, counter, changePage }) => {
                 <Label>Email</Label>
                 <Input type="text" value={food.email} disabled />
               </FormGroup>
-            </Form>
+            </Form> */}
+            <MonAnCTForm
+              initialValues={{
+                tenMon: food.tenMon,
+                moTa: food.moTa,
+                gia: food.gia,
+                loai: food.loai._id,
+                nhaHang: food.nhaHang.name,
+              }}
+              options={foodTypesAll.map((item) => ({
+                label: item.tenLoai,
+                value: item._id,
+              }))}
+            />
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={() => handleClick(food._id)}>
@@ -104,11 +115,21 @@ const MonAnTable = ({ foods, onSearch, counter, changePage }) => {
             {foods.map((currentFood, index) => (
               <tr>
                 <td>{index + 1}</td>
-                <td>{currentFood.tenMon}</td>
+                <td
+                  className="text-truncate"
+                  style={{ 'max-width': `${200}px` }}
+                >
+                  {currentFood.tenMon}
+                </td>
                 <td>{currentFood.gia}</td>
                 <td>{currentFood.loai.tenLoai}</td>
                 <td>{moment(currentFood.dateCreate).format('DD-MM-YYYY')}</td>
-                <td>{currentFood.nhaHang.tenNhaHang}</td>
+                <td
+                  className="text-truncate"
+                  style={{ 'max-width': `${200}px` }}
+                >
+                  {currentFood.nhaHang.name}
+                </td>
                 <td>
                   <Button
                     block
@@ -188,6 +209,7 @@ MonAnTable.propTypes = {
   onSearch: PropTypes.func.isRequired,
   counter: PropTypes.object.isRequired,
   changePage: PropTypes.func.isRequired,
+  foodTypesAll: PropTypes.array.isRequired,
   // options: PropTypes.array.isRequired,
   // onSubmit: PropTypes.func.isRequired,
   // file: PropTypes.object.isRequired,

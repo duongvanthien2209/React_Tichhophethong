@@ -9,6 +9,7 @@ import {
   faPizzaSlice,
   faComments,
   faStar,
+  faWallet,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
@@ -31,11 +32,10 @@ const SideBar = () => (
     <hr className="sidebar-divider my-0" />
 
     <li className="nav-item">
-      <a className="nav-link" href="index.html">
-        {/* <i className="fas fa-fw fa-tachometer-alt" /> */}
+      <Link className="nav-link" to="/restaurantManager/main/dashboard">
         <FontAwesomeIcon className="fa-fw mr-2" icon={faTachometerAlt} />
-        <span>Thông báo</span>
-      </a>
+        <span>Dashboard</span>
+      </Link>
     </li>
 
     <hr className="sidebar-divider" />
@@ -60,6 +60,24 @@ const SideBar = () => (
       <Link className="nav-link" to="/restaurantManager/main/qlDanhGia">
         <FontAwesomeIcon className="mr-2" icon={faStar} />
         <span>Đánh giá</span>
+      </Link>
+    </li>
+
+    <li className="nav-item">
+      <Link className="nav-link" to="/restaurantManager/main/qlHoaDon">
+        <FontAwesomeIcon className="mr-2" icon={faWallet} />
+        <span>Hóa đơn</span>
+      </Link>
+    </li>
+
+    <hr className="sidebar-divider" />
+
+    <div className="sidebar-heading">Thống kê</div>
+
+    <li className="nav-item">
+      <Link className="nav-link" to="/restaurantManager/main/thongKe">
+        <FontAwesomeIcon className="mr-2" icon={faWallet} />
+        <span>Hóa đơn</span>
       </Link>
     </li>
 

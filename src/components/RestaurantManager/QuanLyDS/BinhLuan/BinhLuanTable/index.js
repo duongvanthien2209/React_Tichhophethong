@@ -35,36 +35,36 @@ const BinhLuanTable = ({ comments, counter, changePage, onDeleteClick }) => {
             <tr>
               <th>#</th>
               <th>Người bình luận</th>
+              <th>Món ăn</th>
               <th>Chi tiết</th>
               <th>Ngày giờ</th>
               <th>Xóa</th>
             </tr>
           </thead>
           <tbody>
-            {comments.map((currentComment, index) => {
-              console.log(currentComment.khachHang);
-              return (
-                <tr>
-                  <td>{index + 1}</td>
-                  <td>{currentComment.khachHang.fullName}</td>
-                  <td>{currentComment.chiTiet}</td>
-                  <td>
-                    {moment(currentComment.dateCreate).format(
-                      'DD-MM-YYYY, h:mm:ss a',
-                    )}
-                  </td>
-                  <td>
-                    <Button
-                      block
-                      color="danger"
-                      onClick={() => onDeleteClick(currentComment._id)}
-                    >
-                      Xóa
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })}
+            {comments.map((currentComment, index) => (
+              // console.log(currentComment.khachHang);
+              <tr>
+                <td>{index + 1}</td>
+                <td>{currentComment.khachHang.fullName}</td>
+                <td>{currentComment.monAn.tenMon}</td>
+                <td>{currentComment.chiTiet}</td>
+                <td>
+                  {moment(currentComment.dateCreate).format(
+                    'DD-MM-YYYY, h:mm:ss a',
+                  )}
+                </td>
+                <td>
+                  <Button
+                    block
+                    color="danger"
+                    onClick={() => onDeleteClick(currentComment._id)}
+                  >
+                    Xóa
+                  </Button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </Table>
 

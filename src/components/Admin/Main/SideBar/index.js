@@ -32,11 +32,10 @@ const SideBar = () => (
     <hr className="sidebar-divider my-0" />
 
     <li className="nav-item">
-      <a className="nav-link" href="index.html">
-        {/* <i className="fas fa-fw fa-tachometer-alt" /> */}
+      <Link className="nav-link" to="/admin/main/thongKe">
         <FontAwesomeIcon className="fa-fw mr-2" icon={faTachometerAlt} />
-        <span>Thông báo</span>
-      </a>
+        <span>Dashboard</span>
+      </Link>
     </li>
 
     <hr className="sidebar-divider" />

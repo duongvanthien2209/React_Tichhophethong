@@ -13,7 +13,7 @@ const NguoiDung = () => {
   const [searchText, setSearchText] = useState('');
   const [total, setTotal] = useState(0);
 
-  console.log(users);
+  // console.log(users);
 
   const fetchData = async () => {
     try {
@@ -55,7 +55,7 @@ const NguoiDung = () => {
 
   return (
     <div>
-      <h1 className="h3 mb-4 text-gray-800">Blank Page</h1>
+      <h1 className="h3 mb-4 text-gray-800">Quản lý</h1>
       <NguoiDungTable
         users={users}
         onSearch={handleSearch}
